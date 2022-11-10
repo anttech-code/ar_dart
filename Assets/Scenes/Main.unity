@@ -152,8 +152,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82bbf5e0e02828468c0fdcbf911bd5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interval: 100
   Board: {fileID: 1951522119}
   DartPrefab: {fileID: 1677917314446230228, guid: d7bff25845efdb347ab722c3eedfd735, type: 3}
+  holdAction:
+    id: 8
+    description: Hold Action
+    axisConstraint: 0
+  navigationAction:
+    id: 10
+    description: Navigation Action
+    axisConstraint: 0
+  manipulationAction:
+    id: 9
+    description: Manipulate Action
+    axisConstraint: 0
+  tapAction:
+    id: 1
+    description: Select
+    axisConstraint: 2
+  mode: 
 --- !u!4 &261804843
 Transform:
   m_ObjectHideFlags: 0

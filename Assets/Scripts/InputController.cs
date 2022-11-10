@@ -1,33 +1,96 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Microsoft.MixedReality.Toolkit.Utilities;
-using Microsoft.MixedReality.Toolkit.Input;
-using Microsoft.MixedReality.Toolkit;
+using UnityEngine.Serialization;
 using Microsoft;
-using TMPro;
+using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.Input;
+using Microsoft.MixedReality.Toolkit.Utilities;
+//using TMPro;
 
+[AddComponentMenu("Scripts/InputController")]
 public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector3>
 {
 
-    public GameObject Board;
-    public GameObject DartPrefab;
+    [Header("Settings")]
+
+    [SerializeField]
+    private float interval = 100f;
+
+    private Vector3 speed = Vector3.zero;
+    private Queue<(Vector3, float)> track = new Queue<(Vector3, float)>();
+
+
+    [Header("Gameobjects")]
+
+    [SerializeField]
+    private GameObject Board = null;
+
+    [SerializeField]
+    private GameObject DartPrefab = null;
 
     private GameObject Dart;
 
-    private string mode = "";
+    [Header("Mapped gesture input actions")]
+
+    [SerializeField]
+    private MixedRealityInputAction holdAction = MixedRealityInputAction.None;
+
+    [SerializeField]
+    private MixedRealityInputAction navigationAction = MixedRealityInputAction.None;
+
+    [SerializeField]
+    private MixedRealityInputAction manipulationAction = MixedRealityInputAction.None;
+
+    [SerializeField]
+    private MixedRealityInputAction tapAction = MixedRealityInputAction.None;
+
+
+    [SerializeField]
+    private Mode mode = Modes.idle;
+
+    //private Modes modes = new Modes();
+    class Mode
+    {
+        string mode;
+        public Mode(string mode) { this.mode = mode; }
+        public bool Equals(Mode other)
+        {
+            if (other == null)
+                return false;
+            return this.mode == other.mode;
+        }
+        public override bool Equals(object other) => this.Equals(other as Mode);
+        public static bool operator ==(Mode lhs, Mode rhs)
+        {
+            if (lhs is null)
+            {
+                if (rhs is null)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return lhs.Equals(rhs);
+        }
+        public static bool operator !=(Mode lhs, Mode rhs) => !(lhs == rhs);
+        public override int GetHashCode() => mode.GetHashCode();
+
+    }
+    class Modes
+    {
+        public static Mode board = new Mode("Board_mode");
+        public static Mode dart = new Mode("Dart_mode");
+        public static Mode idle = new Mode("Idle_mode");
+    }
 
     void Start()
     {
         Debug.Log("Started");
-        // StartCoroutine(waiter());
-
-        mode = "Dart";
+        mode = Modes.dart;
         Dart = (GameObject)Instantiate(DartPrefab, transform.position, Quaternion.identity);
         Dart.GetComponent<DartHandler>().stopped = true;
-
-
-
+        // StartCoroutine(waiter());
     }
 
     IEnumerator waiter()
@@ -49,22 +112,48 @@ public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector
 
     void Update()
     {
-        switch(mode)
+        if (mode == Modes.board)
         {
-            case "Board":
-                moveBoard();
-                break;
-            case "Dart":
-                moveDart();
-                break;
-            default:
-                break;
+            moveBoard();
+        } else if (mode == Modes.dart)
+        {
+            trackSpeed();
+            moveDart();
+        } else
+        {
+
         }
+    }
+
+    private void trackSpeed()
+    {
+        float currentTime = Time.time * 1000f;
+
+        Vector3 pos = Vector3.zero;
+        if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, Handedness.Right, out MixedRealityPose palm))
+            pos = palm.Position;
+
+        track.Enqueue((pos, currentTime));
+
+        while (track.Peek().Item2 < currentTime - interval)
+            track.Dequeue();
+
+        speed = (pos - track.Peek().Item1) / (currentTime - track.Peek().Item2);
+        speed *= 1000f;
+    }
+
+    private void throwDart()
+    {
+        DartHandler dart = Dart.GetComponent<DartHandler>();
+        dart.velocity = speed;
+        dart.stopped = false;
+        //Debug.Log(speed);
+        //Debug.Log(dart.velocity);
+        mode = Modes.idle;
     }
 
     private void moveDart()
     {
-
         if (!HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexKnuckle, Handedness.Right, out MixedRealityPose index_back))
             return;
         if (!HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, Handedness.Right, out MixedRealityPose index_front))
@@ -76,16 +165,14 @@ public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector
         if (!HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, Handedness.Right, out MixedRealityPose palm))
             return;
 
-            Vector3 mid_front = midpoint(index_front.Position, thumb_front.Position, 0.4f);
+        Vector3 mid_front = midpoint(index_front.Position, thumb_front.Position, 0.4f);
         Vector3 mid_back = midpoint(index_back.Position, thumb_back.Position, 0.6f);
         Vector3 dir = (mid_front - mid_back);
 
-
         Dart.transform.position = mid_front + dir * 0.07f - palm.Right * 0.015f + palm.Up * 0.015f;
         Dart.transform.forward = dir;
-            
-
     }
+
     private Vector3 midpoint(Vector3 a, Vector3 b)
     {
         return midpoint(a, b, 0.5f);
@@ -102,22 +189,23 @@ public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector
 
     private void moveBoard()
     {
-        if (HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, Handedness.Right, out MixedRealityPose jointPose))
+        if (!HandJointUtils.TryGetJointPose(TrackedHandJoint.Palm, Handedness.Right, out MixedRealityPose jointPose))
+            return;
+        
+        if (Board.GetComponent<BoardHandler>().projectTo(jointPose.Position, jointPose.Forward))
         {
-            if (Board.GetComponent<BoardHandler>().projectTo(jointPose.Position, jointPose.Forward))
-            {
-                //Debug.Log("Hit");
-            }
-            else
-            {
-                //Debug.Log("No Hit");
-            }
+            //Debug.Log("Hit");
+        }
+        else
+        {
+            //Debug.Log("No Hit");
         }
     }
     
 
     public void OnGestureStarted(InputEventData eventData)
     {
+
         Debug.Log($"OnGestureStarted [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
 
     }
@@ -129,17 +217,39 @@ public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector
 
     public void OnGestureUpdated(InputEventData<Vector3> eventData)
     {
-        Debug.Log($"OnGestureUpdated [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
+        Debug.Log($"OnGestureUpdated3 [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
     }
 
     public void OnGestureCompleted(InputEventData eventData)
     {
         Debug.Log($"OnGestureCompleted [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
+
+        MixedRealityInputAction action = eventData.MixedRealityInputAction;
+        if (action == tapAction)
+        {
+            Debug.Log("test");
+            if (mode == Modes.idle)
+            {
+                Debug.Log("New Dart");
+                mode = Modes.dart;
+                Dart = (GameObject)Instantiate(DartPrefab, transform.position, Quaternion.identity);
+                Dart.GetComponent<DartHandler>().stopped = true;
+            }
+        }
     }
 
     public void OnGestureCompleted(InputEventData<Vector3> eventData)
     {
-        Debug.Log($"OnGestureCompleted [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
+        Debug.Log($"OnGestureCompleted3 [{Time.frameCount}]: {eventData.MixedRealityInputAction}");
+
+        MixedRealityInputAction action = eventData.MixedRealityInputAction;
+        if (action == manipulationAction)
+        {
+            if (mode == Modes.dart)
+            {
+                throwDart();
+            }
+        }
     }
 
     public void OnGestureCanceled(InputEventData eventData)
