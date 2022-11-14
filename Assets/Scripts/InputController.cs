@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Microsoft;
+using Microsoft.MixedReality.OpenXR;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Utilities;
+using Microsoft.MixedReality.Toolkit.WindowsMixedReality;
+
+using Handedness = Microsoft.MixedReality.Toolkit.Utilities.Handedness;
+
+
 //using TMPro;
 
 [AddComponentMenu("Scripts/InputController")]
-public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector3>
+public class InputController : MonoBehaviour
 {
 
     [Header("Settings")]
@@ -77,6 +83,7 @@ public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector
         public override int GetHashCode() => mode.GetHashCode();
 
     }
+
     class Modes
     {
         public static Mode board = new Mode("Board_mode");
@@ -84,13 +91,20 @@ public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector
         public static Mode idle = new Mode("Idle_mode");
     }
 
+    private GestureRecognizer recognizer;
+
     void Start()
     {
         Debug.Log("Started");
-        mode = Modes.dart;
-        Dart = (GameObject)Instantiate(DartPrefab, transform.position, Quaternion.identity);
-        Dart.GetComponent<DartHandler>().stopped = true;
+        mode = Modes.board;
+
+        //mode = Modes.dart;
+        //Dart = (GameObject)Instantiate(DartPrefab, transform.position, Quaternion.identity);
+        //Dart.GetComponent<DartHandler>().stopped = true;
         // StartCoroutine(waiter());
+
+        //recognizer = new GestureRecognizer(GestureSettings.Tap | GestureSettings.Hold);
+        //recognizer.Start();
     }
 
     IEnumerator waiter()
@@ -112,6 +126,17 @@ public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector
 
     void Update()
     {
+        //GestureEventData data = new GestureEventData();
+        //Debug.Log($"Before: {data.EventType}");
+        //if (recognizer.TryGetNextEvent(ref data) )
+        //{
+        //    Debug.Log($"After1: {data.EventType}");
+        //}
+        //else
+        //{
+        //    Debug.Log($"After2: {data.EventType}");
+        //}
+
         if (mode == Modes.board)
         {
             moveBoard();
@@ -203,62 +228,62 @@ public class InputController : MonoBehaviour, IMixedRealityGestureHandler<Vector
     }
     
 
-    public void OnGestureStarted(InputEventData eventData)
-    {
+    //public void OnGestureStarted(InputEventData eventData)
+    //{
 
-        Debug.Log($"OnGestureStarted [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
+    //    Debug.Log($"OnGestureStarted [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
 
-    }
+    //}
 
-    public void OnGestureUpdated(InputEventData eventData)
-    {
-        Debug.Log($"OnGestureUpdated [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
-    }
+    //public void OnGestureUpdated(InputEventData eventData)
+    //{
+    //    Debug.Log($"OnGestureUpdated [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
+    //}
 
-    public void OnGestureUpdated(InputEventData<Vector3> eventData)
-    {
-        Debug.Log($"OnGestureUpdated3 [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
-    }
+    //public void OnGestureUpdated(InputEventData<Vector3> eventData)
+    //{
+    //    Debug.Log($"OnGestureUpdated3 [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
+    //}
 
-    public void OnGestureCompleted(InputEventData eventData)
-    {
-        Debug.Log($"OnGestureCompleted [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
+    //public void OnGestureCompleted(InputEventData eventData)
+    //{
+    //    Debug.Log($"OnGestureCompleted [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
 
-        MixedRealityInputAction action = eventData.MixedRealityInputAction;
-        if (action == tapAction)
-        {
-            Debug.Log("test");
-            if (mode == Modes.idle)
-            {
-                Debug.Log("New Dart");
-                mode = Modes.dart;
-                Dart = (GameObject)Instantiate(DartPrefab, transform.position, Quaternion.identity);
-                Dart.GetComponent<DartHandler>().stopped = true;
-            }
-        }
-    }
+    //    MixedRealityInputAction action = eventData.MixedRealityInputAction;
+    //    if (action == tapAction)
+    //    {
+    //        Debug.Log("test");
+    //        if (mode == Modes.idle)
+    //        {
+    //            Debug.Log("New Dart");
+    //            mode = Modes.dart;
+    //            Dart = (GameObject)Instantiate(DartPrefab, transform.position, Quaternion.identity);
+    //            Dart.GetComponent<DartHandler>().stopped = true;
+    //        }
+    //    }
+    //}
 
-    public void OnGestureCompleted(InputEventData<Vector3> eventData)
-    {
-        Debug.Log($"OnGestureCompleted3 [{Time.frameCount}]: {eventData.MixedRealityInputAction}");
+    //public void OnGestureCompleted(InputEventData<Vector3> eventData)
+    //{
+    //    Debug.Log($"OnGestureCompleted3 [{Time.frameCount}]: {eventData.MixedRealityInputAction}");
 
-        MixedRealityInputAction action = eventData.MixedRealityInputAction;
-        if (action == manipulationAction)
-        {
-            if (mode == Modes.dart)
-            {
-                throwDart();
-            }
-        }
-    }
+    //    MixedRealityInputAction action = eventData.MixedRealityInputAction;
+    //    if (action == manipulationAction)
+    //    {
+    //        if (mode == Modes.dart)
+    //        {
+    //            throwDart();
+    //        }
+    //    }
+    //}
 
-    public void OnGestureCanceled(InputEventData eventData)
-    {
-        Debug.Log($"OnGestureCanceled [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
-    }
+    //public void OnGestureCanceled(InputEventData eventData)
+    //{
+    //    Debug.Log($"OnGestureCanceled [{Time.frameCount}]: {eventData.MixedRealityInputAction.Description}");
+    //}
 
-    void Awake()
-    {
-        CoreServices.InputSystem?.RegisterHandler<IMixedRealityGestureHandler<Vector3>>(this);
-    }
+    //void Awake()
+    //{
+    //    CoreServices.InputSystem?.RegisterHandler<IMixedRealityGestureHandler<Vector3>>(this);
+    //}
 }

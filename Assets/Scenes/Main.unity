@@ -171,7 +171,6 @@ MonoBehaviour:
     id: 1
     description: Select
     axisConstraint: 2
-  mode: 
 --- !u!4 &261804843
 Transform:
   m_ObjectHideFlags: 0
