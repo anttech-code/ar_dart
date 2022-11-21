@@ -7,14 +7,21 @@ public class DartHandler : MonoBehaviour
 
     public GameObject Dart;
     public float timestep = 0.1f;
-    
-    public Vector3 velocity = new Vector3(0, 3f, 5f);
+
+    public Vector3 velocity = Vector3.zero;
     private Vector3 acceleration = Vector3.zero;
     public bool stopped = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        velocity = new Vector3(0, 3f, 5f);
+
+    }
+
+    public void setVelocity(Vector3 velocity)
+    {
+        this.velocity = velocity;
     }
 
     // Update is called once per frame

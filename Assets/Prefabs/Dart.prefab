@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1677917314446230229}
   - component: {fileID: 1677917314446230231}
   - component: {fileID: 1677917314446230248}
-  - component: {fileID: 1677917314446230249}
   m_Layer: 12
   m_Name: Dart
   m_TagString: Dart
@@ -49,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dart: {fileID: 1677917314446230228}
   timestep: 1
-  velocity: {x: 0, y: 0, z: 0}
+  stopped: 0
 --- !u!65 &1677917314446230231
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -79,20 +78,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &1677917314446230249
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677917314446230228}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 8691780276856062721, guid: bf2cea82571245349823094e6f992cdd, type: 3}
 --- !u!1001 &1677917313079932471
 PrefabInstance:
   m_ObjectHideFlags: 0
