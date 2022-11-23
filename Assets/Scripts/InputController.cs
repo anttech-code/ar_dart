@@ -107,6 +107,11 @@ public class InputController : MonoBehaviour
     }
 
 
+    public void SetGameState(Modes mode)
+    {
+        this.mode = mode;
+    }
+
     private Modes idle_state(Modes mode)
     {
         switch (gestureHandler.GetGesture())

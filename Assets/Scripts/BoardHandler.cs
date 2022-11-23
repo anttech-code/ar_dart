@@ -131,4 +131,20 @@ public class BoardHandler : MonoBehaviour
         }
     }
    
+    public int GetPoints()
+    {
+        int counter = 0;
+        for(int i = 0; i<points.Count; i++)
+        {
+            counter += points[i];
+        }
+        return counter;
+
+    }
+
+    public void ResetPoints()
+    {
+        points = new List<int>();
+    }
+
 }
