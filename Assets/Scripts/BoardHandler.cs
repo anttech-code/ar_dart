@@ -6,6 +6,7 @@ public class BoardHandler : MonoBehaviour
 {
 
     public GameObject Board;
+    public GameObject Line;
     public float size = 0.45f;
 
     private List<int> points = new List<int> ();
@@ -119,6 +120,17 @@ public class BoardHandler : MonoBehaviour
             //Debug.Log("Did Hit");
             Board.transform.position = hit.point;
             Board.transform.forward = hit.normal.normalized;
+
+            RaycastHit lineHit;
+            Vector3 horizontalBoardNormal = new Vector3(hit.normal.x, 0f, hit.normal.z);
+            horizontalBoardNormal = horizontalBoardNormal.normalized;
+            Vector3 downDir = new Vector3(0f, -1f, 0f);
+            if (Physics.Raycast(hit.point + 2*horizontalBoardNormal, downDir, out lineHit, 10f, layerMaskCombined))
+            {
+                Line.transform.position = lineHit.point;
+                Line.transform.forward = horizontalBoardNormal;
+            }
+
             return true;
         }
         else
