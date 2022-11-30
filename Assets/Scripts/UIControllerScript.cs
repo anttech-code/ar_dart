@@ -5,13 +5,14 @@ using UnityEngine.UI;
 using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine.SceneManagement;
 using Unity.XR.CoreUtils;
+using TMPro;
 
 public class UIControllerScript : MonoBehaviour
 {
 
     public GameObject InputController;
     public GameObject Board; //used to obtain current points
-    public GameObject ScoreBoard; //display score text
+    public GameObject Scoreboard; //display score text
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,12 @@ public class UIControllerScript : MonoBehaviour
     void Update()
     {
         //periodically update the UI scoreboard
-        ScoreBoard.GetComponent<ButtonConfigHelper>().MainLabelText = $"Score: {Board.GetComponent<BoardHandler>().GetPoints()}";
+        //ScoreBoard.GetComponent<ButtonConfigHelper>().MainLabelText = $"Score: {Board.GetComponent<BoardHandler>().GetPoints()}"; //old version, where scoreboard was on the menu
+        //Debug.Log(Scoreboard.GetComponent<TextMeshProUGUI>().text);
+
+        int score = Board.GetComponent<BoardHandler>().GetPoints();
+        int num_darts = GetNumberOfHitDarts();
+        Scoreboard.GetComponent<TextMeshProUGUI>().text = $"\r\nPOINTS: \r\n{score}\r\n\r\nDARTS HIT: \r\n{num_darts}";
 
     }
 
@@ -39,6 +45,19 @@ public class UIControllerScript : MonoBehaviour
     void SetGameMode()
     {
         //doesn't do anything yet
+    }
+
+    public int GetNumberOfHitDarts()
+    {
+        int darts_counter = 0;
+        foreach (Transform child in Board.transform)
+        {
+            if (child.gameObject.name == "Dart(Clone)")
+            {
+                darts_counter++;
+            }
+        }
+        return darts_counter;
     }
 
     //set the counter on the board to zero and destory all Dart game objects
