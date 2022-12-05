@@ -1,27 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 
 public class DartHandler : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject Dart;
 
-    public GameObject Dart;
-    public float timestep = 0.1f;
+    [SerializeField]
+    private TrailRenderer trail = null;
 
-    public Vector3 velocity = Vector3.zero;
+    [SerializeField]
+    private Vector3 velocity = Vector3.zero;
+
     private Vector3 acceleration = Vector3.zero;
-    public bool stopped = false;
+
+    private bool stopped = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        velocity = new Vector3(0, 3f, 5f);
-
+        // trail = Trail.GetComponent<TrailRenderer>();
+        //Debug.Log(trail);
     }
 
-    public void setVelocity(Vector3 velocity)
+    public void Pause(bool pause)
+    {
+        stopped = pause;
+        //Debug.Log(trail);
+        trail.enabled = !pause;
+    }
+
+    public void SetVelocity(Vector3 velocity)
     {
         this.velocity = velocity;
+        trail.enabled = true;
     }
 
     // Update is called once per frame
@@ -34,6 +49,8 @@ public class DartHandler : MonoBehaviour
             acceleration += new Vector3(0, -9.81f, 0);
             velocity += acceleration * Time.deltaTime;
 
+
+            // Raycast to ensure dart, does not clip through other gameobjects
             int layerA = 8; // Player
             int layerB = 12; // Darts
             int layerMaskCombined = (1 << layerA) | (1 << layerB);

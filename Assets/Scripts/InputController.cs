@@ -75,7 +75,7 @@ public class InputController : MonoBehaviour
             float x = Random.Range(-0.07f, 0.07f);
             float y = Random.Range(-0.07f, 0.07f);
             GameObject dart = (GameObject)Instantiate(DartPrefab, new Vector3(x, y, 0), Quaternion.identity);
-            dart.GetComponent<DartHandler>().setVelocity(new Vector3(0, 5, 7));
+            dart.GetComponent<DartHandler>().SetVelocity(new Vector3(0, 5, 7));
             if (i != nmb - 1)
                 yield return new WaitForSeconds(0.05f);
         }
@@ -85,7 +85,7 @@ public class InputController : MonoBehaviour
 
     void Update()
     {
-
+        Debug.Log(mode);
         switch (mode)
         {
             case Modes.Idle:
@@ -160,7 +160,9 @@ public class InputController : MonoBehaviour
     private void generateDart()
     {
         Dart = (GameObject)Instantiate(DartPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        Dart.GetComponent<DartHandler>().stopped = true;
+        Dart.GetComponent<DartHandler>().Pause(true);
+        //moveDart();
+        //Dart.transform.parent = this.transform;
     }
 
     private void trackSpeed()
@@ -185,9 +187,10 @@ public class InputController : MonoBehaviour
         if (Dart == null)
             return;
         DartHandler dart = Dart.GetComponent<DartHandler>();
-        dart.setVelocity(speed);
-        dart.stopped = false;
+        dart.SetVelocity(speed);
+        dart.Pause(false);
         //Debug.Log(dart.velocity);
+        Dart.transform.parent = null;
         Dart = null;
     }
 

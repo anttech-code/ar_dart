@@ -102,11 +102,10 @@ public class BoardHandler : MonoBehaviour
 
     public bool projectTo(Vector3 from, Vector3 dir)
     {
-        int layerA = 11; // Board
-        int layerB = 12; // Dart
-        int layerC = 8; // Player
+        int layerA = 31; // Spatial Mesh
+        int layerB = 7; // Test Scene
 
-        int layerMaskCombined = (1 << layerA) | (1 << layerB) | (1 << layerC);
+        int layerMaskCombined = (1 << layerA) | (1 << layerB);
         layerMaskCombined = ~layerMaskCombined; // invert so it does not hit player, board, and dart
 
         RaycastHit hit;
