@@ -8,6 +8,7 @@ public class BoardHandler : MonoBehaviour
     public GameObject Board;
     public GameObject Line;
     public float size = 0.45f;
+    public float playerDistance = 1.5f;
 
     private List<int> points = new List<int> ();
 
@@ -102,10 +103,11 @@ public class BoardHandler : MonoBehaviour
 
     public bool projectTo(Vector3 from, Vector3 dir)
     {
-        int layerA = 31; // Spatial Mesh
-        int layerB = 7; // Test Scene
+        int layerA = 5; //Board
+        int layerB = 10; //UI
+        int layerC = 11; //Menu
 
-        int layerMaskCombined = (1 << layerA) | (1 << layerB);
+        int layerMaskCombined = (1 << layerA) | (1 << layerB) | (1 << layerC);
         layerMaskCombined = ~layerMaskCombined; // invert so it does not hit player, board, and dart
 
         RaycastHit hit;
@@ -124,7 +126,7 @@ public class BoardHandler : MonoBehaviour
             Vector3 horizontalBoardNormal = new Vector3(hit.normal.x, 0f, hit.normal.z);
             horizontalBoardNormal = horizontalBoardNormal.normalized;
             Vector3 downDir = new Vector3(0f, -1f, 0f);
-            if (Physics.Raycast(hit.point + 2*horizontalBoardNormal, downDir, out lineHit, 10f, layerMaskCombined))
+            if (Physics.Raycast(hit.point + playerDistance*horizontalBoardNormal, downDir, out lineHit, 10f, layerMaskCombined))
             {
                 Line.transform.position = lineHit.point;
                 Line.transform.forward = horizontalBoardNormal;
