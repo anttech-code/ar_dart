@@ -32,7 +32,7 @@ public class InputController : MonoBehaviour
 
 
     [SerializeField]
-    private Modes mode = Modes.Idle;
+    public Modes mode = Modes.Idle;
 
     private Handedness trackedHand = Handedness.Right;
 

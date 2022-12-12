@@ -9,6 +9,15 @@ using TMPro;
 using static Microsoft.MixedReality.Toolkit.Experimental.UI.KeyboardKeyFunc;
 using UnityEngine.PlayerLoop;
 
+
+using UnityEngine.Serialization;
+using Microsoft;
+//using Microsoft.MixedReality.OpenXR;
+using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.Input;
+using Microsoft.MixedReality.Toolkit.Utilities;
+using Microsoft.MixedReality.Toolkit.WindowsMixedReality;
+
 public class UIControllerScript : MonoBehaviour
 {
 
