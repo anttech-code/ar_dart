@@ -6,6 +6,8 @@ using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine.SceneManagement;
 using Unity.XR.CoreUtils;
 using TMPro;
+using static Microsoft.MixedReality.Toolkit.Experimental.UI.KeyboardKeyFunc;
+using UnityEngine.PlayerLoop;
 
 public class UIControllerScript : MonoBehaviour
 {
@@ -13,6 +15,10 @@ public class UIControllerScript : MonoBehaviour
     public GameObject InputController;
     public GameObject Board; //used to obtain current points
     public GameObject Scoreboard; //display score text
+    
+    //these two objects serve as toggle for the placement mode and the reset button
+    public GameObject PlacementToggleObject;
+    public GameObject ResetToggleObject;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +36,24 @@ public class UIControllerScript : MonoBehaviour
         int score = Board.GetComponent<BoardHandler>().GetPoints();
         int num_darts = GetNumberOfHitDarts();
         Scoreboard.GetComponent<TextMeshProUGUI>().text = $"\r\nPOINTS: \r\n{score}\r\n\r\nDARTS HIT: \r\n{num_darts}";
+
+
+        //hacky workaround for hololens problems:
+        //instead of directly calling the method, the update method queries whether certain objects in the scene
+        //are active. if they are, the repsective function is called and then the object's state is set to inactive again.
+        //all the buttons do is enable the game object again.
+
+        if (PlacementToggleObject.activeSelf)
+        {
+            SetBoardState();
+            PlacementToggleObject.SetActive(false);
+        }
+
+        if (ResetToggleObject.activeSelf)
+        {
+            ResetGame();
+            ResetToggleObject.SetActive(false);
+        }
 
     }
 
