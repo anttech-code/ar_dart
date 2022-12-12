@@ -35,9 +35,8 @@ public class BoardHandler : MonoBehaviour
 
     public void hit(GameObject obj)
     {
-        int layerA = 11;
 
-        int layerMaskCombined = (1 << layerA); // | (1 << layerB);
+        int layerMaskCombined = (1 << (int)Layers.Board);
         RaycastHit hit;
         //if (Physics.Raycast(from, transform.TransformDirection(dir), out hit, Mathf.Infinity, layerMask))
         Vector3 dir = obj.transform.forward;
@@ -121,11 +120,12 @@ public class BoardHandler : MonoBehaviour
 
     public bool projectTo(Vector3 from, Vector3 dir)
     {
-        int layerA = 5; //Board
-        int layerB = 10; //UI
-        int layerC = 11; //Menu
 
-        int layerMaskCombined = (1 << layerA) | (1 << layerB) | (1 << layerC);
+        int layerMaskCombined = 
+              (1 << (int)Layers.UI) 
+            | (1 << (int)Layers.Menu) 
+            | (1 << (int)Layers.Board) 
+            | (1 << (int)Layers.Dart);
         layerMaskCombined = ~layerMaskCombined; // invert so it does not hit player, board, and dart
 
         RaycastHit hit;

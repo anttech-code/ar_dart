@@ -40,7 +40,7 @@ public class GestureHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (HandJointUtils.FindHand(handedness) is null)
             return;

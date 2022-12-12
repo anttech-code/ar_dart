@@ -28,7 +28,7 @@ public class InputController : MonoBehaviour
     [Header("Settings")]
 
     [SerializeField]
-    private float interval = 100f;
+    private float interval = 40f;
 
 
     [SerializeField]
@@ -83,7 +83,7 @@ public class InputController : MonoBehaviour
 
 
 
-    void Update()
+    void FixedUpdate()
     {
         Debug.Log(mode);
         switch (mode)
