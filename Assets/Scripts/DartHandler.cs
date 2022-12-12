@@ -78,16 +78,18 @@ public class DartHandler : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-
-        velocity = Vector3.zero;
-        if (collision.tag == "Board")
+        if ()
         {
-            transform.parent = collision.gameObject.transform;
-            //transform.localPosition = Vector3.zero;
-            //transform.localRotation = Quaternion.identity;
-            BoardHandler board = collision.gameObject.GetComponent<BoardHandler>();
-            board.hit(Dart);
+            velocity = Vector3.zero;
+            if (collision.tag == "Board")
+            {
+                transform.parent = collision.gameObject.transform;
+                //transform.localPosition = Vector3.zero;
+                //transform.localRotation = Quaternion.identity;
+                BoardHandler board = collision.gameObject.GetComponent<BoardHandler>();
+                board.hit(Dart);
 
+            }
         }
     }
 }

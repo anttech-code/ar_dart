@@ -52,7 +52,7 @@ public class UIControllerScript : MonoBehaviour
         int darts_counter = 0;
         foreach (Transform child in Board.transform)
         {
-            if (child.gameObject.name == "Dart(Clone)")
+            if (child.gameObject.tag == "Dart")
             {
                 darts_counter++;
             }
@@ -72,7 +72,7 @@ public class UIControllerScript : MonoBehaviour
 
         foreach (GameObject go in rootObjects)
         {
-            if(go.name == "Dart(Clone)")
+            if(go.tag == "Dart")
             {
                 Destroy(go);
             }
@@ -81,7 +81,7 @@ public class UIControllerScript : MonoBehaviour
         //if a dart hits the board, it is appended to the board as a child, so we also need to go over all the children of the board and destroy them
         foreach(Transform child in Board.transform)
         {
-            if (child.gameObject.name == "Dart(Clone)")
+            if (child.gameObject.tag == "Dart")
             {
                 Destroy(child.gameObject);
             }
