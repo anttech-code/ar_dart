@@ -179,7 +179,7 @@ public class InputController : MonoBehaviour
             track.Dequeue();
 
         speed = (pos - track.Peek().Item1) / (currentTime - track.Peek().Item2);
-        speed *= 1000f;
+        speed *= 3000f;
     }
 
     private void throwDart()

@@ -8,7 +8,7 @@ public class BoardHandler : MonoBehaviour
     public GameObject Board;
     public GameObject Line;
     public float size = 0.45f;
-    public float playerDistance = 1.5f;
+    public float playerDistance = 2.37f;
     public float boardMaxDiameter = 0.451f;
     public float boardInsideRadius = 0.17f;
     public float bullsEyeDiameter = 0.032f;

@@ -46,7 +46,7 @@ public class DartHandler : MonoBehaviour
         {
 
             acceleration = Vector3.zero;
-            acceleration += new Vector3(0, -9.81f/2, 0);
+            acceleration += new Vector3(0, -9.81f/1.5f, 0);
             velocity += acceleration * Time.deltaTime;
 
 
