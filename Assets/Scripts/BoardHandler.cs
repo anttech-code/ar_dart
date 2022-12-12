@@ -9,6 +9,13 @@ public class BoardHandler : MonoBehaviour
     public GameObject Line;
     public float size = 0.45f;
     public float playerDistance = 1.5f;
+    public float boardMaxDiameter = 0.451f;
+    public float boardInsideRadius = 0.17f;
+    public float bullsEyeDiameter = 0.032f;
+    public float bullsInside = 0.0127f;
+    public float insideRingRadius = 0.107f;
+    public float tripleDouble = 0.008f;
+
 
     private List<int> points = new List<int> ();
 
@@ -61,9 +68,20 @@ public class BoardHandler : MonoBehaviour
         float phi = pos.phi;
         int[] pointsBoard = new int[] { 6, 13, 4, 18, 1, 20, 5, 12, 9, 14, 11, 8, 16, 7, 19, 3, 17, 2, 15, 10 };
         int points = pointsBoard[Mathf.FloorToInt(((phi + 9) % 360) / 18)];
+        if (r < bullsInside / 2) {
+            points = 50;
+        } else if (bullsInside / 2 < r && r < bullsEyeDiameter / 2) {
+            points = 25;
+        } else if (insideRingRadius - tripleDouble < r && r < insideRingRadius) {
+            points *= 3;
+        } else if (boardInsideRadius - tripleDouble < r && r < boardInsideRadius) {
+            points *= 2;
+        } else if (boardInsideRadius < r) {
+            points = 0;
+        }
         return points;
-    }
 
+    }
     struct PolarCoordinate
     {
         public float r;
