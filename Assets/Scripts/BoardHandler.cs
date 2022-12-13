@@ -18,7 +18,7 @@ public class BoardHandler : MonoBehaviour
     public float tripleDouble = 0.008f;
 
 
-    private List<int> points = new List<int> ();
+    public List<int> points = new List<int> ();
 
     // Start is called before the first frame update
     void Start()

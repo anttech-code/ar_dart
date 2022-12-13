@@ -58,7 +58,7 @@ public class UIControllerScript : MonoBehaviour
             PlacementToggleObject.SetActive(false);
         }
 
-        if (ResetToggleObject.activeSelf)
+        if (ResetToggleObject.activeSelf || PlacementToggleObject.activeSelf) //score resets when re-placing board
         {
             ResetGame();
             ResetToggleObject.SetActive(false);
@@ -83,13 +83,22 @@ public class UIControllerScript : MonoBehaviour
     public int GetNumberOfHitDarts()
     {
         int darts_counter = 0;
-        foreach (Transform child in Board.transform)
+        /*foreach (Transform child in Board.transform)
         {
             if (child.gameObject.tag == "Dart")
             {
                 darts_counter++;
             }
+        }*/
+
+        foreach (int elem in Board.GetComponent<BoardHandler>().points)
+        {
+            if (elem != 0)
+            { 
+                darts_counter++;
+            }
         }
+
         return darts_counter;
     }
 
