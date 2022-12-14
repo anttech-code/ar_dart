@@ -24,10 +24,19 @@ public class UIControllerScript : MonoBehaviour
     public GameObject InputController;
     public GameObject Board; //used to obtain current points
     public GameObject Scoreboard; //display score text
-    
+
     //these two objects serve as toggle for the placement mode and the reset button
     //public GameObject PlacementToggleObject;
     //public GameObject ResetToggleObject;
+
+    public GameObject GravitySlider;
+    public GameObject SpeedSlider;
+
+    public GameObject GravityDisplay;
+    public GameObject SpeedDisplay;
+
+    public float GravityMultiplier;
+    public float SpeedMultiplier;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +73,30 @@ public class UIControllerScript : MonoBehaviour
             ResetToggleObject.SetActive(false);
         }*/
 
+    }
+
+    public void SetGravity(SliderEventData eventData)
+    {
+        GravityDisplay.GetComponent<TextMeshPro>().text = $"{GravityMultiplier * eventData.NewValue:F2}";
+    }
+
+    public void SetSpeed(SliderEventData eventData)
+    {
+        SpeedDisplay.GetComponent<TextMeshPro>().text = $"{SpeedMultiplier * eventData.NewValue:F2}";
+    }
+
+    public void ToggleSliderActive()
+    {
+        if (GravitySlider.activeSelf)
+        {
+            GravitySlider.SetActive(false);
+            SpeedSlider.SetActive(false);
+        }
+        else
+        {
+            GravitySlider.SetActive(true);
+            SpeedSlider.SetActive(true);
+        }
     }
 
     //when pressing the "place board" button, enable board placement
