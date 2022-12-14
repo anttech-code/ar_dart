@@ -185,7 +185,8 @@ public class InputController : MonoBehaviour
     {
         if (Dart == null)
             return;
-        speed = Vector3.zero;
+        Vector3 dir = Vector3.zero;
+        float magnitude = 0;
         List<(Vector3, float)> points = new List<(Vector3, float)>(track);
         if (points.Count >= 2)
         {
@@ -194,13 +195,13 @@ public class InputController : MonoBehaviour
                 (Vector3, float) cur = points[i];
                 (Vector3, float) next = points[i+1];
                 Vector3 temp = (cur.Item1 - next.Item1) / (cur.Item2 - next.Item2);
-                if (temp.magnitude > speed.magnitude)
-                    speed = temp;
+                dir += temp;
+                if (temp.magnitude > magnitude)
+                    magnitude = temp.magnitude;
             }
-        } else
-        {
-
         }
+        speed = dir.normalized;
+        speed *= magnitude;
         speed *= 1000f; // as Speed is in units per miliseconds
         speed *= speedFactor;
         Debug.Log(speed);
