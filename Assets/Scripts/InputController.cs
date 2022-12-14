@@ -47,6 +47,8 @@ public class InputController : MonoBehaviour
 
     [SerializeField]
     private GameObject Board = null;
+    [SerializeField]
+    private GameObject Line = null;
 
     [SerializeField]
     private GameObject DartPrefab = null;
@@ -141,6 +143,8 @@ public class InputController : MonoBehaviour
         }
         moveBoard();
 
+        Line.SetActive(false);
+
         return mode;
     }
 
@@ -157,6 +161,8 @@ public class InputController : MonoBehaviour
         }
         trackSpeed();
         moveDart();
+
+        Line.SetActive(true);
 
         return mode;
     }

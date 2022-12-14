@@ -40,6 +40,12 @@ public class UIControllerScript : MonoBehaviour
 
     public GameObject Constants;
 
+    public List<GameObject> Levels;
+
+    public int currentLevel = 0;
+
+    public GameObject levelButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,24 +62,6 @@ public class UIControllerScript : MonoBehaviour
         int score = Board.GetComponent<BoardHandler>().GetPoints();
         int num_darts = GetNumberOfHitDarts();
         Scoreboard.GetComponent<TextMeshProUGUI>().text = $"\r\nPOINTS: \r\n{score}\r\n\r\nDARTS HIT: \r\n{num_darts}";
-
-
-        //hacky workaround for hololens problems:
-        //instead of directly calling the method, the update method queries whether certain objects in the scene
-        //are active. if they are, the repsective function is called and then the object's state is set to inactive again.
-        //all the buttons do is enable the game object again.
-
-        /*if (PlacementToggleObject.activeSelf)
-        {
-            SetBoardState();
-            PlacementToggleObject.SetActive(false);
-        }
-
-        if (ResetToggleObject.activeSelf || PlacementToggleObject.activeSelf) //score resets when re-placing board
-        {
-            ResetGame();
-            ResetToggleObject.SetActive(false);
-        }*/
 
     }
 
@@ -119,6 +107,26 @@ public class UIControllerScript : MonoBehaviour
     void SetGameMode()
     {
         //doesn't do anything yet
+    }
+
+    public void ChangeLevel()
+    {
+        currentLevel = (currentLevel + 1) % Levels.Count;
+
+        for (int i = 0; i < Levels.Count; i++)
+        {
+            if (i == currentLevel)
+            {
+                Levels[i].SetActive(true);
+            }
+            else
+            {
+                Levels[i].SetActive(false);
+            }
+        }
+
+        levelButton.GetComponent<ButtonConfigHelper>().MainLabelText = $"Change level\r\nCurrent level: {currentLevel}";
+
     }
 
     public int GetNumberOfHitDarts()
