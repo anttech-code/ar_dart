@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 1677917314446230230}
   - component: {fileID: 1677917314446230229}
   - component: {fileID: 1677917314446230231}
-  - component: {fileID: 1677917314446230248}
+  - component: {fileID: -3537512574544025006}
   m_Layer: 12
   m_Name: Dart
   m_TagString: Dart
@@ -201,7 +201,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.003, y: 0.003, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1677917314446230248
+--- !u!54 &-3537512574544025006
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -126,7 +126,8 @@ public class BoardHandler : MonoBehaviour
               (1 << (int)Layers.UI) 
             | (1 << (int)Layers.Menu) 
             | (1 << (int)Layers.Board) 
-            | (1 << (int)Layers.Dart);
+            | (1 << (int)Layers.Dart)
+            | (1 << (int)Layers.Gravity);
         layerMaskCombined = ~layerMaskCombined; // invert so it does not hit player, board, and dart
 
         RaycastHit hit;

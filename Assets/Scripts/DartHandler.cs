@@ -15,7 +15,9 @@ public class DartHandler : MonoBehaviour
     [SerializeField]
     private Vector3 velocity = Vector3.zero;
 
-    private Vector3 acceleration = Vector3.zero;
+    [SerializeField]
+    private Vector3 defaultAcceleration = new Vector3(0, -6, 0);
+    private Vector3 acceleration = new Vector3(0,-6, 0);
 
     private bool stopped = false;
 
@@ -45,15 +47,19 @@ public class DartHandler : MonoBehaviour
         if (!stopped)
         {
 
-            acceleration = Vector3.zero;
-            acceleration += new Vector3(0, -9.81f/1.5f, 0);
-            velocity += acceleration * Time.deltaTime;
+            Vector3 acc = Vector3.zero;
+            acc += acceleration;
+            velocity += acc * Time.deltaTime;
 
 
             // Raycast to ensure dart, does not clip through other gameobjects
-            int layerA = 8; // Player
-            int layerB = 12; // Darts
-            int layerMaskCombined = (1 << layerA) | (1 << layerB);
+            int layerMaskCombined =
+                  (1 << (int)Layers.UI)
+                | (1 << (int)Layers.Menu)
+                //| (1 << (int)Layers.Board)
+                | (1 << (int)Layers.Dart)
+                | (1 << (int)Layers.Gravity);
+
             layerMaskCombined = ~layerMaskCombined;
             Vector3 dir = velocity.normalized;
             Vector3 from = transform.position + dir * 0.05f;
@@ -80,17 +86,29 @@ public class DartHandler : MonoBehaviour
     {
         if (true) // TODO: (!stopped)
         {
-            transform.position += velocity.normalized * 0.007f;
-            velocity = Vector3.zero;
-            stopped = true;
-            if (collision.tag == "Board")
-            {
-                transform.parent = collision.gameObject.transform;
-                //transform.localPosition = Vector3.zero;
-                //transform.localRotation = Quaternion.identity;
-                BoardHandler board = collision.gameObject.GetComponent<BoardHandler>();
-                board.hit(Dart);
+            Debug.Log(collision.tag);
+            if (collision.tag == "Menu")
+                return;
 
+            if (collision.tag == "Gravity")
+            {
+                acceleration = collision.gameObject.GetComponent<GravityField>().getGravity();
+            }
+            else
+            {
+                transform.position += velocity.normalized * 0.007f;
+                velocity = Vector3.zero;
+                stopped = true;
+
+                if (collision.tag == "Board")
+                {
+                    transform.parent = collision.gameObject.transform;
+                    //transform.localPosition = Vector3.zero;
+                    //transform.localRotation = Quaternion.identity;
+                    BoardHandler board = collision.gameObject.GetComponent<BoardHandler>();
+                    board.hit(Dart);
+
+                }
             }
         }
     }
