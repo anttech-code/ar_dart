@@ -26,8 +26,8 @@ public class UIControllerScript : MonoBehaviour
     public GameObject Scoreboard; //display score text
     
     //these two objects serve as toggle for the placement mode and the reset button
-    public GameObject PlacementToggleObject;
-    public GameObject ResetToggleObject;
+    //public GameObject PlacementToggleObject;
+    //public GameObject ResetToggleObject;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +52,7 @@ public class UIControllerScript : MonoBehaviour
         //are active. if they are, the repsective function is called and then the object's state is set to inactive again.
         //all the buttons do is enable the game object again.
 
-        if (PlacementToggleObject.activeSelf)
+        /*if (PlacementToggleObject.activeSelf)
         {
             SetBoardState();
             PlacementToggleObject.SetActive(false);
@@ -62,7 +62,7 @@ public class UIControllerScript : MonoBehaviour
         {
             ResetGame();
             ResetToggleObject.SetActive(false);
-        }
+        }*/
 
     }
 
