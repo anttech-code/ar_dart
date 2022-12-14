@@ -38,6 +38,8 @@ public class UIControllerScript : MonoBehaviour
     public float GravityMultiplier;
     public float SpeedMultiplier;
 
+    public GameObject Constants;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -77,12 +79,18 @@ public class UIControllerScript : MonoBehaviour
 
     public void SetGravity(SliderEventData eventData)
     {
-        GravityDisplay.GetComponent<TextMeshPro>().text = $"{GravityMultiplier * eventData.NewValue:F2}";
+        float newValue = GravityMultiplier * eventData.NewValue;
+
+        GravityDisplay.GetComponent<TextMeshPro>().text = $"{newValue:F2}";
+        Constants.GetComponent<ConstantsScript>().Gravity = newValue;
     }
 
     public void SetSpeed(SliderEventData eventData)
     {
-        SpeedDisplay.GetComponent<TextMeshPro>().text = $"{SpeedMultiplier * eventData.NewValue:F2}";
+
+        float newValue = SpeedMultiplier * eventData.NewValue;
+        SpeedDisplay.GetComponent<TextMeshPro>().text = $"{newValue:F2}";
+        Constants.GetComponent<ConstantsScript>().DartsSpeed = newValue;
     }
 
     public void ToggleSliderActive()

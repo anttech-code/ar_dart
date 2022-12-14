@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 
@@ -8,6 +9,9 @@ public class DartHandler : MonoBehaviour
 {
     [SerializeField]
     private GameObject Dart;
+
+    [SerializeField]
+    private GameObject Constants;
 
     [SerializeField]
     private TrailRenderer trail = null;
@@ -26,6 +30,22 @@ public class DartHandler : MonoBehaviour
     {
         // trail = Trail.GetComponent<TrailRenderer>();
         //Debug.Log(trail);
+
+        List<GameObject> rootObjects = new List<GameObject>();
+        Scene scene = SceneManager.GetActiveScene();
+
+        scene.GetRootGameObjects(rootObjects);
+
+        foreach (GameObject go in rootObjects)
+        {
+            if (go.name == "Constants")
+            {
+                Constants = go;
+            }
+        }
+
+
+
     }
 
     public void Pause(bool pause)
@@ -49,6 +69,7 @@ public class DartHandler : MonoBehaviour
 
             Vector3 acc = Vector3.zero;
             acc += acceleration;
+            acc *= Constants.GetComponent<ConstantsScript>().Gravity;
             velocity += acc * Time.deltaTime;
 
 

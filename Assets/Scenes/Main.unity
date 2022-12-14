@@ -337,7 +337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2204069621426241315, guid: 3f1f46cbecbe08e46a303ccfdb5b498a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2204069621797983326, guid: 3f1f46cbecbe08e46a303ccfdb5b498a, type: 3}
       propertyPath: m_Layer
@@ -1162,6 +1162,7 @@ MonoBehaviour:
   Board: {fileID: 1951522119}
   DartPrefab: {fileID: 1677917314446230228, guid: d7bff25845efdb347ab722c3eedfd735, type: 3}
   gestureObject: {fileID: 1872790892}
+  Constants: {fileID: 1063442601}
 --- !u!4 &261804843
 Transform:
   m_ObjectHideFlags: 0
@@ -1493,7 +1494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}
       propertyPath: sliderValue
-      value: 0.32
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}
       propertyPath: sliderEndDistance
@@ -3087,7 +3088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}
       propertyPath: sliderValue
-      value: 0.32
+      value: 0.981
       objectReference: {fileID: 0}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}
       propertyPath: sliderEndDistance
@@ -3801,7 +3802,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e62d447f9716bfb46ab065037b786af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 9.81
+  Gravity: 9.81
+  DartsSpeed: 1
 --- !u!4 &1063442603
 Transform:
   m_ObjectHideFlags: 0
@@ -4329,6 +4331,7 @@ MonoBehaviour:
   SpeedDisplay: {fileID: 2025298187}
   GravityMultiplier: 10
   SpeedMultiplier: 10
+  Constants: {fileID: 1063442601}
 --- !u!4 &1630292642
 Transform:
   m_ObjectHideFlags: 0
@@ -5235,7 +5238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2565462927989821909, guid: 40b588bd40632eb41a0af374d91c4fc9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.015
+      value: 0.0000000027939677
       objectReference: {fileID: 0}
     - target: {fileID: 2649945188586564362, guid: 40b588bd40632eb41a0af374d91c4fc9, type: 3}
       propertyPath: m_Layer
@@ -5503,7 +5506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4987367190003920735, guid: 40b588bd40632eb41a0af374d91c4fc9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.015
+      value: -0.029999997
       objectReference: {fileID: 0}
     - target: {fileID: 4987367190035662098, guid: 40b588bd40632eb41a0af374d91c4fc9, type: 3}
       propertyPath: m_Layer
@@ -5595,7 +5598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5733978352390262511, guid: 40b588bd40632eb41a0af374d91c4fc9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.044999998
+      value: 0.030000001
       objectReference: {fileID: 0}
     - target: {fileID: 5733978352425690274, guid: 40b588bd40632eb41a0af374d91c4fc9, type: 3}
       propertyPath: m_Layer
@@ -5675,7 +5678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5972206229126697900, guid: 40b588bd40632eb41a0af374d91c4fc9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.044999998
+      value: -0.059999995
       objectReference: {fileID: 0}
     - target: {fileID: 5972206229158918625, guid: 40b588bd40632eb41a0af374d91c4fc9, type: 3}
       propertyPath: m_Layer

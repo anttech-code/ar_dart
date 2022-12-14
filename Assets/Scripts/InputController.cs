@@ -58,6 +58,8 @@ public class InputController : MonoBehaviour
 
     private GestureHandler gestureHandler = null;
 
+    public GameObject Constants;
+
 
     void Start()
     {
@@ -204,6 +206,7 @@ public class InputController : MonoBehaviour
         speed *= magnitude;
         speed *= 1000f; // as Speed is in units per miliseconds
         speed *= speedFactor;
+        speed *= Constants.GetComponent<ConstantsScript>().DartsSpeed;
         Debug.Log(speed);
         DartHandler dart = Dart.GetComponent<DartHandler>();
         dart.SetVelocity(speed);
