@@ -36,6 +36,8 @@ public class InputController : MonoBehaviour
 
     private Handedness trackedHand = Handedness.Right;
 
+    [SerializeField]
+    private float speedFactor = 3.0f;
 
     private Vector3 speed = Vector3.zero;
     private Queue<(Vector3, float)> track = new Queue<(Vector3, float)>();
@@ -85,7 +87,7 @@ public class InputController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(mode);
+        //Debug.Log(mode);
         switch (mode)
         {
             case Modes.Idle:
@@ -177,15 +179,31 @@ public class InputController : MonoBehaviour
 
         while (track.Peek().Item2 < currentTime - interval)
             track.Dequeue();
-
-        speed = (pos - track.Peek().Item1) / (currentTime - track.Peek().Item2);
-        speed *= 3000f;
     }
 
     private void throwDart()
     {
         if (Dart == null)
             return;
+        speed = Vector3.zero;
+        List<(Vector3, float)> points = new List<(Vector3, float)>(track);
+        if (points.Count >= 2)
+        {
+            for (int i=0; (i + 1) < points.Count; i++)
+            {
+                (Vector3, float) cur = points[i];
+                (Vector3, float) next = points[i+1];
+                Vector3 temp = (cur.Item1 - next.Item1) / (cur.Item2 - next.Item2);
+                if (temp.magnitude > speed.magnitude)
+                    speed = temp;
+            }
+        } else
+        {
+
+        }
+        speed *= 1000f; // as Speed is in units per miliseconds
+        speed *= speedFactor;
+        Debug.Log(speed);
         DartHandler dart = Dart.GetComponent<DartHandler>();
         dart.SetVelocity(speed);
         dart.Pause(false);

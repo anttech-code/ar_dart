@@ -186,7 +186,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dart: {fileID: 1677917314446230228}
-  Trail: {fileID: 1211078348498686921}
   trail: {fileID: 6367684594196298325}
   velocity: {x: 0, y: 0, z: 0}
 --- !u!65 &1677917314446230231
@@ -239,7 +238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5dd0586d53e7a2d45addd0f3d2f8e2ea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.02
+      value: -0.032
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5dd0586d53e7a2d45addd0f3d2f8e2ea, type: 3}
       propertyPath: m_LocalRotation.w

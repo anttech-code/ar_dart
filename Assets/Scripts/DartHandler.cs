@@ -78,9 +78,11 @@ public class DartHandler : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if (true)
+        if (true) // TODO: (!stopped)
         {
+            transform.position += velocity.normalized * 0.007f;
             velocity = Vector3.zero;
+            stopped = true;
             if (collision.tag == "Board")
             {
                 transform.parent = collision.gameObject.transform;
