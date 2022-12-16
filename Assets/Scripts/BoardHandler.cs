@@ -11,10 +11,10 @@ public class BoardHandler : MonoBehaviour
     public float size = 0.45f;
     public float playerDistance = 2.37f;
     public float boardMaxDiameter = 0.451f;
-    public float boardInsideRadius = 0.17f;
+    public float boardInsideRadius = 0.165f;
     public float bullsEyeDiameter = 0.032f;
     public float bullsInside = 0.0127f;
-    public float insideRingRadius = 0.107f;
+    public float insideRingRadius = 0.102f;
     public float tripleDouble = 0.008f;
 
 
