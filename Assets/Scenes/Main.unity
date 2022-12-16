@@ -4079,7 +4079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}
       propertyPath: sliderValue
-      value: 0.981
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb, type: 3}
       propertyPath: sliderEndDistance
@@ -5737,7 +5737,7 @@ MonoBehaviour:
   GravityDisplay: {fileID: 721238593}
   SpeedDisplay: {fileID: 2025298187}
   GravityMultiplier: 10
-  SpeedMultiplier: 10
+  SpeedMultiplier: 5
   Constants: {fileID: 1063442601}
   Levels:
   - {fileID: 644384137}
